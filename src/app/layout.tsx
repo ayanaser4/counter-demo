@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { EventBusProvider } from "../providers/event-bus.provider";
+import { ThemeProvider, ThemeToggleIcon } from "../providers/theme.provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="flex flex-col min-h-screen w-screen items-center justify-center bg-white text-black dark:bg-black dark:text-white">
+        <EventBusProvider>
+          <ThemeProvider>
+            <div style={{ position: "absolute", top: 16, right: 16 }}>
+              <ThemeToggleIcon />
+            </div>
+            {children}
+          </ThemeProvider>
+        </EventBusProvider>
       </body>
     </html>
   );
